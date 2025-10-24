@@ -1,19 +1,21 @@
 <?php
 // buy_product.php
 
+// ⭐ MODIFICACIÓN CLAVE: Iniciar sesión para persistencia de datos
+session_start();
+
 require_once 'config.php';
 
 // 1. CONFIGURACIÓN DEL DINERO BASE
-// Podemos simular nuestro dinero como una variable estática para esta simple funcionalidad.
 // ¡Empieza con 1000g (Golds)!
 define('DINERO_BASE', 1000.00); 
-$dinero_actual = DINERO_BASE; // Lo usaremos para el cálculo
 
-// Función para obtener/actualizar un saldo base (en un proyecto real, esto vendría de una tabla de usuario)
-function get_current_money() {
-    // Aquí podrías leer el saldo desde una base de datos.
-    // Para simplificar, devolvemos el valor fijo.
-    return DINERO_BASE;
+// ⭐ Obtener el saldo: de la sesión si existe, sino del valor base.
+$dinero_actual = isset($_SESSION['user_money']) ? $_SESSION['user_money'] : DINERO_BASE;
+
+// Función para obtener/actualizar un saldo base (Esta función ya no es tan necesaria, pero la dejamos)
+function get_current_money($current_money) {
+    return $current_money;
 }
 
 // 2. PROCESAMIENTO DE LA COMPRA
@@ -31,9 +33,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     $costo_total = $cantidad_comprar * $precio_unidad;
-    $dinero_actual = get_current_money();
+    $dinero_actual_check = get_current_money($dinero_actual); // Usamos el valor cargado al inicio.
 
-    if ($costo_total > $dinero_actual) {
+    if ($costo_total > $dinero_actual_check) {
+        // Al fallar por dinero, redirigimos SIN el parámetro &new_money. La sesión ya tiene el valor correcto.
         header("location: productos.php?status=error&msg=Dinero_insuficiente");
         exit();
     }
@@ -41,6 +44,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // 4. INICIO DE LA TRANSACCIÓN (Stock y Registro de Venta)
     mysqli_begin_transaction($link);
     $ejecucion_exitosa = true;
+    $nuevo_saldo = $dinero_actual_check; // Inicializamos el nuevo saldo
 
     try {
         // A. Consultar el stock actual
@@ -90,7 +94,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $ejecucion_exitosa = false;
                         }
                         
-                        // NOTA: En un proyecto real, aquí también se restaría el costo total del saldo del usuario.
+                        // ⭐ MODIFICACIÓN CLAVE: Restar y guardar en la variable de sesión
+                        $nuevo_saldo = $dinero_actual_check - $costo_total;
+                        $_SESSION['user_money'] = $nuevo_saldo;
                     }
                 } else {
                     // Stock insuficiente
@@ -109,6 +115,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // 5. FINALIZAR TRANSACCIÓN
         if ($ejecucion_exitosa) {
             mysqli_commit($link);
+            // ⭐ MODIFICACIÓN CLAVE: Ya NO pasamos &new_money. La sesión mantiene el saldo.
             header("location: productos.php?status=success&msg=Compra_exitosa&prod=" . urlencode($nombre_producto));
             exit();
         } else {
