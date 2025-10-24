@@ -31,7 +31,6 @@ require_once 'config.php';
             <a href="agricultores.php" class="list-group-item list-group-item-action">Gestión de Agricultores</a>
             <a href="productos.php" class="list-group-item list-group-item-action">Gestión de Productos</a>
             <a href="ventas.php" class="list-group-item list-group-item-action">Gestión de Ventas</a>
-            <a href="ventas.php" class="list-group-item list-group-item-action">Gestión de Ventas</a>
             <a href="estadisticas.php" class="list-group-item list-group-item-action btn-primary">Panel de Estadísticas</a>
             </div>
     </div>
