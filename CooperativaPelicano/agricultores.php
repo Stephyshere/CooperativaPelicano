@@ -64,7 +64,7 @@ if (isset($_GET['status'])) {
                                             // Enlaces para ver, editar y eliminar
                                             echo '<a href="read_agricultor.php?id='. $row['id'] .'" class="mr-3" title="Ver" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                             echo '<a href="update_agricultor.php?id='. $row['id'] .'" class="mr-3" title="Actualizar" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete_agricultor.php?id='. $row['id'] .'" title="Eliminar" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                           echo '<a href="delete_agricultor.php?id='. $row['id'] .'" class="btn btn-danger btn-sm" title="Eliminar" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }
