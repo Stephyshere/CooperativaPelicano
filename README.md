@@ -65,7 +65,6 @@ Sigue estos pasos para poner en funcionamiento la Cooperativa Pelícano en tu en
 
 Este proyecto fue desarrollado por el siguiente equipo:
 
-* **[TU NOMBRE AQUÍ]**
 * [Rubén Garcia Cubero]
 * [Jose Garcia]
 * [PAU]
