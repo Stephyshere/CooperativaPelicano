@@ -8,7 +8,7 @@ require_once 'config.php';
 
 // 1. CONFIGURACIÓN DEL DINERO BASE
 // ¡Empieza con 1000g (Golds)!
-define('DINERO_BASE', 1000.00); 
+define('DINERO_BASE', 10000.00); 
 
 // ⭐ Obtener el saldo: de la sesión si existe, sino del valor base.
 $dinero_actual = isset($_SESSION['user_money']) ? $_SESSION['user_money'] : DINERO_BASE;

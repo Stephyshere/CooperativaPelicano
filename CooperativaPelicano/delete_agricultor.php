@@ -69,6 +69,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                             <p>
                                 <input type="submit" value="Sí, eliminar" class="btn btn-danger">
                                 <a href="agricultores.php" class="btn btn-secondary ml-2">No</a>
+                                
                             </p>
                         </div>
                     </form>

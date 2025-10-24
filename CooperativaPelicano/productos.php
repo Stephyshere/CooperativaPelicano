@@ -1,17 +1,31 @@
 <?php
 // productos.php
 
+// ⭐ MODIFICACIÓN CLAVE: Iniciar sesión para persistencia de datos
 session_start();
+
 require_once 'config.php';
 
 // 1. CONFIGURACIÓN DEL DINERO BASE (Usado para mostrar el saldo al usuario)
 // **NOTA:** Debe coincidir con la constante DINERO_BASE definida en buy_product.php
-define('DINERO_BASE', 1000.00); 
-$dinero_actual = isset($_SESSION['user_money']) ? $_SESSION['user_money'] : DINERO_BASE; // Si implementas un sistema de usuarios real, esta variable se cargaría desde la DB.
+define('DINERO_BASE', 10000.00); 
 
+// ⭐ MODIFICACIÓN CLAVE: Lógica para reiniciar el saldo a DINERO_BASE
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['reset_money'])) {
+    $_SESSION['user_money'] = DINERO_BASE;
+    // Redirigir para eliminar el POST y mostrar el saldo actualizado
+    header("location: productos.php?status=success&msg=Saldo_reiniciado");
+    exit();
+}
+
+// ⭐ Cargar el saldo: Si existe en $_SESSION, úsalo; si no, usa DINERO_BASE.
+$dinero_actual = isset($_SESSION['user_money']) ? $_SESSION['user_money'] : DINERO_BASE;
+
+// Si no está en sesión, lo inicializamos para la primera vez que visita la página.
 if (!isset($_SESSION['user_money'])) {
     $_SESSION['user_money'] = DINERO_BASE;
 }
+
 
 // 2. MANEJO DE MENSAJES DE ESTADO (Incluye Compra y Errores CRUD)
 $mensaje = '';
@@ -22,12 +36,16 @@ if (isset($_GET['status'])) {
     if ($_GET['status'] == 'success') {
         if ($msg_code == 'Compra_exitosa') {
             $mensaje = '<div class="alert alert-success">¡Compra de **' . $prod_name . '** registrada! El stock ha sido actualizado.</div>';
+        } elseif ($msg_code == 'Saldo_reiniciado') {
+            // Mensaje de éxito para el reinicio
+            $mensaje = '<div class="alert alert-info">✅ Saldo de dinero reiniciado a **' . number_format(DINERO_BASE, 2) . '€** con éxito.</div>';
         } else {
             $mensaje = '<div class="alert alert-success">Operación realizada con éxito.</div>';
         }
     } elseif ($_GET['status'] == 'error') {
         // Manejo de errores de compra
         if ($msg_code == 'Dinero_insuficiente') {
+            // Se usa $dinero_actual, que ya viene de la sesión.
             $mensaje = '<div class="alert alert-danger">ERROR de Compra: No tienes dinero suficiente para esta transacción (Tu saldo es: ' . number_format($dinero_actual, 2) . '€).</div>';
         } elseif ($msg_code == 'Stock_insuficiente') {
             $mensaje = '<div class="alert alert-danger">ERROR de Compra: **' . $prod_name . '** no tiene el stock solicitado.</div>';
@@ -49,6 +67,9 @@ if (isset($_GET['status'])) {
         .wrapper{ max-width: 1000px; margin: 0 auto; }
         /* Aumentamos el ancho de la última columna para el formulario de compra */
         .table th:last-child, .table td:last-child { width: 220px; } 
+        /* Estilos para el nuevo botón */
+        .reset-form { display: inline-block; margin-left: 10px; }
+        .reset-form button { background-color: #f0ad4e; border-color: #eea236; color: white; padding: 5px 10px; border-radius: 4px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -59,7 +80,15 @@ if (isset($_GET['status'])) {
                     
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Inventario de Productos</h2>
-                        <h5 class="pull-right" style="color: #3C6A2E; text-shadow: 1px 1px 0 #F7F1E5;">SALDO ACTUAL: **<?php echo number_format($dinero_actual, 2); ?>** €</h5>
+                        <h5 class="pull-right" style="color: #3C6A2E; text-shadow: 1px 1px 0 #F7F1E5;">
+                            SALDO ACTUAL: **<?php echo number_format($dinero_actual, 2); ?>** €
+                            
+                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="reset-form">
+                                <button type="submit" name="reset_money" class="btn btn-sm btn-warning">
+                                    💰 Reiniciar Saldo (10000€)
+                                </button>
+                            </form>
+                        </h5>
                         <a href="create_producto.php" class="btn btn-success pull-right"> Añadir Nuevo Producto</a>
                     </div>
                     <?php echo $mensaje; ?>
