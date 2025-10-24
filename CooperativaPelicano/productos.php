@@ -1,13 +1,17 @@
 <?php
 // productos.php
 
+session_start();
 require_once 'config.php';
 
 // 1. CONFIGURACIÓN DEL DINERO BASE (Usado para mostrar el saldo al usuario)
 // **NOTA:** Debe coincidir con la constante DINERO_BASE definida en buy_product.php
 define('DINERO_BASE', 1000.00); 
-$dinero_actual = DINERO_BASE; // Si implementas un sistema de usuarios real, esta variable se cargaría desde la DB.
+$dinero_actual = isset($_SESSION['user_money']) ? $_SESSION['user_money'] : DINERO_BASE; // Si implementas un sistema de usuarios real, esta variable se cargaría desde la DB.
 
+if (!isset($_SESSION['user_money'])) {
+    $_SESSION['user_money'] = DINERO_BASE;
+}
 
 // 2. MANEJO DE MENSAJES DE ESTADO (Incluye Compra y Errores CRUD)
 $mensaje = '';
