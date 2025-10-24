@@ -25,7 +25,7 @@ if (isset($_GET['status'])) {
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> 
     <style>
         .wrapper{ max-width: 900px; margin: 0 auto; }
-        .acciones-col { width: 150px; } /* Ajustar ancho para los botones */
+        .acciones-col { width: 150px; } 
     </style>
 </head>
 <body>
@@ -40,7 +40,6 @@ if (isset($_GET['status'])) {
                     <?php echo $mensaje; ?>
                     <?php
                     // Intenta seleccionar todos los agricultores
-                    // Añadida cláusula ORDER BY para una mejor presentación
                     $sql = "SELECT * FROM agricultores ORDER BY nombre ASC";
                     if($result = mysqli_query($link, $sql)){
                         if(mysqli_num_rows($result) > 0){
@@ -63,13 +62,10 @@ if (isset($_GET['status'])) {
                                         echo "<td>" . htmlspecialchars($row['correo']) . "</td>";
                                         echo "<td>";
                                             
-                                            // 1. Botón para Ver (Icono)
-                                            echo '<a href="read_agricultor.php?id='. $row['id'] .'" class="mr-2" title="Ver" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            
-                                            // 2. Botón para ACTUALIZAR/EDITAR (¡Mejorado como botón!)
+                                            // 1. Botón para ACTUALIZAR/EDITAR
                                             echo '<a href="update_agricultor.php?id='. $row['id'] .'" class="btn btn-primary btn-sm mr-2" title="Editar" data-toggle="tooltip">Editar</a>';
                                             
-                                            // 3. Botón para ELIMINAR
+                                            // 2. Botón para ELIMINAR
                                             echo '<a href="delete_agricultor.php?id='. $row['id'] .'" class="btn btn-danger btn-sm" title="Eliminar" data-toggle="tooltip">Eliminar</a>';
                                             
                                         echo "</td>";
