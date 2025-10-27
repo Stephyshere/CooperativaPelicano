@@ -1,5 +1,4 @@
 <?php
-// buy_product.php
 
 //MODIFICACIÓN CLAVE: Iniciar sesión para persistencia de datos
 session_start();
