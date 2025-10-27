@@ -61,8 +61,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 
-    // 2. Insertar en DB si no hay errores
+    //Insertar en DB si no hay errores
     if(empty($id_producto_err) && empty($nombre_err) && empty($tipo_err) && empty($precio_err) && empty($stock_err) && empty($id_agricultor_err)){
+         //ESTO ES OTRO PREPARED STATEMENT
         $sql = "INSERT INTO productos (id_producto, nombre, tipo, precio, stock, id_agricultor) VALUES (?, ?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){

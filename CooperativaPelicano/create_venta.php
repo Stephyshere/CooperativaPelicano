@@ -51,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $ejecucion_exitosa = true;
 
         try {
-            // A. Consultar el stock actual del producto
+            // Consultar el stock actual del producto
             $sql_stock = "SELECT stock FROM productos WHERE id = ?";
             if($stmt_stock = mysqli_prepare($link, $sql_stock)){
                 mysqli_stmt_bind_param($stmt_stock, "i", $param_id_producto);
@@ -63,10 +63,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $row_stock = mysqli_fetch_assoc($result_stock);
                     $stock_actual = $row_stock['stock'];
 
-                    // B. Verificar si hay stock suficiente
+                    // Verificar si hay stock suficiente
                     if ($stock_actual >= $cantidad) {
                         
-                        // C. 1. Registrar la Venta
+                        //  Registrar la Venta
+                         //Y ESTO ES OTRO PREPARED STATEMENT
                         $sql_insert = "INSERT INTO ventas (id_producto, fecha, cantidad) VALUES (?, ?, ?)";
                         if($stmt_insert = mysqli_prepare($link, $sql_insert)){
                             mysqli_stmt_bind_param($stmt_insert, "isi", $param_id_producto_ins, $param_fecha, $param_cantidad);
@@ -82,7 +83,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $ejecucion_exitosa = false;
                         }
 
-                        // C. 2. Actualizar el Stock
+                        //  Actualizar el Stock
                         if ($ejecucion_exitosa) {
                             $sql_update = "UPDATE productos SET stock = stock - ? WHERE id = ?";
                             if($stmt_update = mysqli_prepare($link, $sql_update)){
@@ -112,7 +113,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $ejecucion_exitosa = false;
             }
 
-            // 3. Confirmar o Deshacer la Transacción
+            //Confirmar o Deshacer la Transacción
             if ($ejecucion_exitosa) {
                 mysqli_commit($link);
                 header("location: ventas.php?status=success");

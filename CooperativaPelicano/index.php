@@ -1,10 +1,5 @@
 <?php
-
-// Incluir el archivo de conexión a la base de datos
 require_once 'config.php';
-
-// Puedes incluir otros archivos de funciones o clases aquí
-// require_once 'models/Agricultor.php'; // Si decides usar un enfoque más orientado a objetos
 
 ?>
 <!DOCTYPE html>

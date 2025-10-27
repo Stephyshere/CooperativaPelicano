@@ -2,7 +2,7 @@
 
 require_once 'config.php';
 
-// Mensaje de éxito/error después de una operación
+
 $mensaje = '';
 if (isset($_GET['status'])) {
     if ($_GET['status'] == 'success') {
@@ -39,7 +39,7 @@ if (isset($_GET['status'])) {
                     <?php echo $mensaje; ?>
                     <?php
                     // Intenta seleccionar todos los agricultores
-                    $sql = "SELECT * FROM agricultores ORDER BY nombre ASC";
+                    $sql = "SELECT * FROM agricultores ORDER BY ID ASC";
                     if($result = mysqli_query($link, $sql)){
                         if(mysqli_num_rows($result) > 0){
                             echo '<table class="table table-bordered table-striped">';
@@ -61,10 +61,8 @@ if (isset($_GET['status'])) {
                                         echo "<td>" . htmlspecialchars($row['correo']) . "</td>";
                                         echo "<td>";
                                             
-                                            // 1. Botón para ACTUALIZAR/EDITAR
                                             echo '<a href="update_agricultor.php?id='. $row['id'] .'" class="btn btn-primary btn-sm mr-2" title="Editar" data-toggle="tooltip">Editar</a>';
                                             
-                                            // 2. Botón para ELIMINAR
                                             echo '<a href="delete_agricultor.php?id='. $row['id'] .'" class="btn btn-danger btn-sm" title="Eliminar" data-toggle="tooltip">Eliminar</a>';
                                             
                                         echo "</td>";
@@ -72,7 +70,6 @@ if (isset($_GET['status'])) {
                                 }
                                 echo "</tbody>";
                             echo "</table>";
-                            // Libera el conjunto de resultados
                             mysqli_free_result($result);
                         } else{
                             echo '<div class="alert alert-info">No se encontraron agricultores.</div>';

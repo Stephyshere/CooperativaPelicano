@@ -142,6 +142,8 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                 <div class="col-md-12">
                     <h2 class="mt-5">Actualizar Registro de Agricultor</h2>
                     <p>Por favor, edita los valores y envía para actualizar el registro del agricultor.</p>
+
+                    <!-- AQUI HAY HTMLSPECIALCHARS -->
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                         <div class="form-group">
                             <label>Nombre</label>
