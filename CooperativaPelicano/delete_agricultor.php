@@ -1,5 +1,4 @@
 <?php
-// delete_agricultor.php
 
 // Procesar operación de eliminación después de la confirmación
 if(isset($_POST["id"]) && !empty($_POST["id"])){

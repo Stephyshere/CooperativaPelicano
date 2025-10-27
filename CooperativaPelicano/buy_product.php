@@ -1,7 +1,7 @@
 <?php
 // buy_product.php
 
-// ⭐ MODIFICACIÓN CLAVE: Iniciar sesión para persistencia de datos
+//MODIFICACIÓN CLAVE: Iniciar sesión para persistencia de datos
 session_start();
 
 require_once 'config.php';
@@ -10,7 +10,7 @@ require_once 'config.php';
 // ¡Empieza con 1000g (Golds)!
 define('DINERO_BASE', 10000.00); 
 
-// ⭐ Obtener el saldo: de la sesión si existe, sino del valor base.
+//Obtener el saldo: de la sesión si existe, sino del valor base.
 $dinero_actual = isset($_SESSION['user_money']) ? $_SESSION['user_money'] : DINERO_BASE;
 
 // Función para obtener/actualizar un saldo base (Esta función ya no es tan necesaria, pero la dejamos)
@@ -94,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $ejecucion_exitosa = false;
                         }
                         
-                        // ⭐ MODIFICACIÓN CLAVE: Restar y guardar en la variable de sesión
+                        // MODIFICACIÓN CLAVE: Restar y guardar en la variable de sesión
                         $nuevo_saldo = $dinero_actual_check - $costo_total;
                         $_SESSION['user_money'] = $nuevo_saldo;
                     }
@@ -115,7 +115,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // 5. FINALIZAR TRANSACCIÓN
         if ($ejecucion_exitosa) {
             mysqli_commit($link);
-            // ⭐ MODIFICACIÓN CLAVE: Ya NO pasamos &new_money. La sesión mantiene el saldo.
+            // MODIFICACIÓN CLAVE: Ya NO pasamos &new_money. La sesión mantiene el saldo.
             header("location: productos.php?status=success&msg=Compra_exitosa&prod=" . urlencode($nombre_producto));
             exit();
         } else {

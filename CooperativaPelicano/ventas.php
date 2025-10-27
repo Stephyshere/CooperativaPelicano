@@ -1,5 +1,4 @@
 <?php
-// ventas.php
 
 require_once 'config.php';
 

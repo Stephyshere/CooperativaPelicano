@@ -1,5 +1,4 @@
 <?php
-// create_venta.php
 
 require_once 'config.php';
 

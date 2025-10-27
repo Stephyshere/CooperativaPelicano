@@ -1,7 +1,6 @@
 <?php
-// productos.php
 
-// ⭐ MODIFICACIÓN CLAVE: Iniciar sesión para persistencia de datos
+//MODIFICACIÓN CLAVE: Iniciar sesión para persistencia de datos
 session_start();
 
 require_once 'config.php';
@@ -10,7 +9,7 @@ require_once 'config.php';
 // **NOTA:** Debe coincidir con la constante DINERO_BASE definida en buy_product.php
 define('DINERO_BASE', 10000.00); 
 
-// ⭐ MODIFICACIÓN CLAVE: Lógica para reiniciar el saldo a DINERO_BASE
+//MODIFICACIÓN CLAVE: Lógica para reiniciar el saldo a DINERO_BASE
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['reset_money'])) {
     $_SESSION['user_money'] = DINERO_BASE;
     // Redirigir para eliminar el POST y mostrar el saldo actualizado
@@ -18,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['reset_money'])) {
     exit();
 }
 
-// ⭐ Cargar el saldo: Si existe en $_SESSION, úsalo; si no, usa DINERO_BASE.
+// Cargar el saldo: Si existe en $_SESSION, úsalo; si no, usa DINERO_BASE.
 $dinero_actual = isset($_SESSION['user_money']) ? $_SESSION['user_money'] : DINERO_BASE;
 
 // Si no está en sesión, lo inicializamos para la primera vez que visita la página.
@@ -38,7 +37,7 @@ if (isset($_GET['status'])) {
             $mensaje = '<div class="alert alert-success">¡Compra de **' . $prod_name . '** registrada! El stock ha sido actualizado.</div>';
         } elseif ($msg_code == 'Saldo_reiniciado') {
             // Mensaje de éxito para el reinicio
-            $mensaje = '<div class="alert alert-info">✅ Saldo de dinero reiniciado a **' . number_format(DINERO_BASE, 2) . '€** con éxito.</div>';
+            $mensaje = '<div class="alert alert-info">Saldo de dinero reiniciado a **' . number_format(DINERO_BASE, 2) . '€** con éxito.</div>';
         } else {
             $mensaje = '<div class="alert alert-success">Operación realizada con éxito.</div>';
         }

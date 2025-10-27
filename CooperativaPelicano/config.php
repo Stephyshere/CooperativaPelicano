@@ -1,5 +1,4 @@
 <?php
-// config.php
 
 define('DB_SERVER', 'localhost'); // O la IP de tu servidor de base de datos
 define('DB_USERNAME', 'root');   // Tu usuario de MySQL

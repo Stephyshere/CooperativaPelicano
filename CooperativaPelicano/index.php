@@ -1,5 +1,4 @@
 <?php
-// index.php
 
 // Incluir el archivo de conexión a la base de datos
 require_once 'config.php';
