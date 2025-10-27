@@ -1,5 +1,5 @@
 <?php
-// create_producto.php
+
 
 require_once 'config.php';
 
@@ -8,7 +8,6 @@ $id_producto = $nombre = $tipo = $id_agricultor = "";
 $precio = $stock = 0;
 $id_producto_err = $nombre_err = $tipo_err = $precio_err = $stock_err = $id_agricultor_err = "";
 $agricultores = []; // Para la lista desplegable
-
 // Obtener lista de agricultores para el select
 $sql_agricultores = "SELECT id, nombre FROM agricultores ORDER BY nombre";
 if ($result = mysqli_query($link, $sql_agricultores)) {
